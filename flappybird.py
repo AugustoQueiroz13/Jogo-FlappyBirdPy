@@ -14,8 +14,10 @@ IMAGENS_PASSARO = [
     pygame.transform.scale2x(pygame.image.load(os.path.join('imgs', 'bird3.png'))),
 ]
 
+# Fonte para exibir a pontuação
 pygame.font.init()
-FONTE_PONTOS = pygame.font.SysFont('arial', 50)
+FONTE_PONTOS = pygame.font.SysFont("arial", 50)
+FONTE_GAME_OVER = pygame.font.SysFont("arial", 60, bold=True)
 
 
 class Passaro:
@@ -175,7 +177,7 @@ def desenhar_tela(tela, passaros, canos, chao, pontos):
 # Tela de Game Over
 def game_over(tela, pontos):
     texto_game_over = FONTE_GAME_OVER.render("GAME OVER", 1, (255, 0, 0))
-    texto_restart = FONTE_PONTO.render("Pressione ESPAÇO", 1, (255, 255, 255))
+    texto_restart = FONTE_PONTOS.render("Pressione ESPAÇO", 1, (255, 255, 255))
 
     tela.blit(
         texto_game_over, (TELA_LARGURA / 2 - texto_game_over.get_width() / 2, 200)
