@@ -172,6 +172,27 @@ def desenhar_tela(tela, passaros, canos, chao, pontos):
     chao.desenhar(tela)
     pygame.display.update()
 
+# Tela de Game Over
+def game_over(tela, pontos):
+    texto_game_over = FONTE_GAME_OVER.render("GAME OVER", 1, (255, 0, 0))
+    texto_restart = FONTE_PONTO.render("Pressione ESPAÇO", 1, (255, 255, 255))
+
+    tela.blit(
+        texto_game_over, (TELA_LARGURA / 2 - texto_game_over.get_width() / 2, 200)
+    )
+    tela.blit(texto_restart, (TELA_LARGURA / 2 - texto_restart.get_width() / 2, 300))
+
+    pygame.display.update()
+
+    esperando = True
+    while esperando:
+        for evento in pygame.event.get():
+            if evento.type == pygame.QUIT:
+                pygame.quit()
+                quit()
+            if evento.type == pygame.KEYDOWN:
+                if evento.key == pygame.K_SPACE:
+                    esperando = False
 
 def main():
     passaros = [Passaro(230, 350)]
@@ -206,10 +227,13 @@ def main():
         for cano in canos:
             for i, passaro in enumerate(passaros):
                 if cano.colidir(passaro):
-                    passaros.pop(i)
+                    game_over(tela, pontos)  # mostra tela de game over
+                    main()  # reinicia o jogo
+                        
                 if not cano.passou and passaro.x > cano.x:
                     cano.passou = True
                     adicionar_cano = True
+                    
             cano.mover()
             if cano.x + cano.CANO_TOPO.get_width() < 0:
                 remover_canos.append(cano)
